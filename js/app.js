@@ -5,7 +5,10 @@
  var dank = new Image();
  dank.src = "img/dank1.jpg";
 
- var imageArray = [dank];
+ var dank2 = new Image();
+ dank2.src = "img/dank2.png";
+
+ var imageArray = [dank, dank2];
 
  var allStreamData = null;
 
@@ -717,7 +720,7 @@ function render() {
         c.clearRect(0,0,1600,800);
         for(i = 0; i < 5; i++) {
             for(j = 0; j < 5; j++) {
-                var randIndex = getRandomInt(0, imageArray.length);
+                var randIndex = getRandomInt(0, 1);
                 c.drawImage(imageArray[randIndex], i*width, j*height, width, height);
                 var percentTransform = 0.7;
                 c.strokeStyle = "rgb(0,0,0)";
@@ -746,7 +749,7 @@ function render() {
             
             c.stroke();
         }
-
+        /*
         c.fillStyle = "rgba(255,255,255, 0.75)";
         //c.fillRect(0, 0, SC_W, SC_H);
         screenFront += 1;
@@ -790,7 +793,7 @@ function render() {
             }
             if (slicevisible) c.stroke();
         }
-        //c.clearRect(0,0,1600,800);
+        //c.clearRect(0,0,1600,800);*/
         
     }
     var loop = setInterval(function() { drawLand(); }, 50);
