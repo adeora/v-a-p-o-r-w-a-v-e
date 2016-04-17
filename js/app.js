@@ -1,7 +1,3 @@
-/**
- * Created by Michael on 31/12/13.
- */
-
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
 function getRandomInt(min, max) {
@@ -11,7 +7,7 @@ function getRandomInt(min, max) {
 function transform(value, percent) {
     //var calced = (value - 127.5) * percent + 127.5;
     var calced = value * percent;
-    return calced;
+    return (value > 200) ? value : Math.round(calced);
 }
 
 var dank = new Image();
@@ -323,6 +319,12 @@ function render() {
     var canvas = document.getElementById('terrain-canvas');
     var c = canvas.getContext('2d');
     function makeTheMagicHappen() {
+        var theSum = 0;
+        for(i = 0; i < 90; i++) {
+            theSum += allStreamData[i];
+        }
+        var theAverage = theSum / 90;
+
         c.clearRect(0,0,1600,800);
         for(i = 0; i < 5; i++) {
             for(j = 0; j < 5; j++) {
@@ -330,14 +332,14 @@ function render() {
                 var bangImage = imageArray[bangImageIndex];
                 var image = (allStreamData[3*(5*i + j)] > 200) ? baseImage : bangImage;
                 c.drawImage(image, i*width, j*height, width, height);
-                var percentTransform = 1;
+                var percentTransform = 0.3;
                 var red = transform(allStreamData[3*(5*i +j)], percentTransform);
                 var green = transform(allStreamData[3*(5*i +j) + 1], percentTransform);
                 var blue = transform(allStreamData[3*(5*i +j) + 2], percentTransform);
-                c.fillStyle = "rgba(" + red + "," + green + "," + blue + ", 0.95)";
+                c.fillStyle = "rgba(" + red + "," + green + "," + blue + ", 0.93)";
                 var hsv = tinycolor(c.fillStyle).toHsv();
-                hsv['s'] = 50;
-                hsv['v'] = 100;
+                hsv['s'] = 100;
+                hsv['v'] = 30;
                 c.fillStyle = tinycolor(hsv).toHex();
                 //c.fillStyle = tinycolor(c.fillStyle).setAlpha(0.9);
                 var width = SC_W / 5;
@@ -346,6 +348,15 @@ function render() {
             }
             c.stroke();
         }
+        if(theAverage > 150) {
+            var displayTexts = ["v a p o r w a v e", "d a n k", "a e s t h e t i c", "u n c o m m o n"];
+            var theText = displayTexts[getRandomInt(0, displayTexts.length)];
+            document.title = theText;
+            c.fillStyle = "#fff";
+            c.font = "80px monospace"
+            c.fillText(theText, getRandomInt(0, SC_W), getRandomInt(0, SC_H));
+            console.log([getRandomInt(0, SC_W), getRandomInt(0, SC_H)]);
+        }
     }
-    var loop = setInterval(function() { makeTheMagicHappen(); }, 50);
+    var loop = setInterval(function() { makeTheMagicHappen(); }, 10);
 }
