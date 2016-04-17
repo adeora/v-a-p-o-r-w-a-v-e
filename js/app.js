@@ -9,10 +9,9 @@ function getRandomInt(min, max) {
 }
 
 function transform(value, percent) {
-    var calced = (value - 127.5) * percent + 127.5;
-    return Math.round(calced);
-    //return (value - 127.5) * percent + 127.5;
-    //return value;
+    //var calced = (value - 127.5) * percent + 127.5;
+    var calced = value * percent;
+    return calced;
 }
 
 var dank = new Image();
@@ -314,33 +313,6 @@ window.onload = function init() {
         e.preventDefault();
         uiUpdater.toggleControlPanel();
     });
-    /*
-    var aboutButton = document.getElementById('credit');
-    aboutButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        var message = document.getElementById('info').innerHTML;
-        uiUpdater.displayMessage("About", message);
-    });
-
-    window.addEventListener("keydown", keyControls, false);
-
-    function keyControls(e) {
-        switch (e.keyCode) {
-            case 32:
-                // spacebar pressed
-                loader.directStream('toggle');
-                break;
-            case 37:
-                // left key pressed
-                loader.directStream('backward');
-                break;
-            case 39:
-                // right key pressed
-                loader.directStream('forward');
-                break;
-        }
-    }
-    */
 };
 
 function render() {
@@ -348,28 +320,6 @@ function render() {
     var SC_W = 1200;
     var SC_H = 600;
     var RS = 100;
-    var PLAYWIDTH = SC_W / RS;
-    var PLAYHEIGHT = 50;
-    var HALF_WIDTH = SC_W / 2;
-    var HALF_HEIGHT = SC_H / 2;
-    var screenLeft = 0.0;
-    var screenTop = -10.0;
-    var screenFront = 0.0;
-    function convert3Dto2D(x3d, y3d, z3d) {
-
-        var scale = fov / (fov + z3d);
-        var x2d = ((x3d - HALF_WIDTH) * scale) + HALF_WIDTH;
-        var y2d = ((y3d - HALF_HEIGHT) * scale) + HALF_HEIGHT - (z3d * 0.01);
-        // just using a 2 dimensional array as a 2D point - not sure if that's the best way to do it! 
-        return [x2d, y2d];
-    }
-    function noise1(x, y) {
-        var xRand = getRandomInt(38, 40);
-        var yRand = getRandomInt(45, 48);
-        var xScale = allStreamData[xRand] / 255;
-        var yScale = allStreamData[yRand] / 255;
-        return Math.sin(x * xScale) * 5 + Math.sin(xScale * 3* x + y * 2) * 3;
-    }
     var canvas = document.getElementById('terrain-canvas');
     var c = canvas.getContext('2d');
     function makeTheMagicHappen() {
@@ -381,65 +331,21 @@ function render() {
                 var image = (allStreamData[3*(5*i + j)] > 200) ? baseImage : bangImage;
                 c.drawImage(image, i*width, j*height, width, height);
                 var percentTransform = 1;
-                var red = transform(allStreamData[3*(5*i +j)], percentTransform);;
+                var red = transform(allStreamData[3*(5*i +j)], percentTransform);
                 var green = transform(allStreamData[3*(5*i +j) + 1], percentTransform);
                 var blue = transform(allStreamData[3*(5*i +j) + 2], percentTransform);
-                c.fillStyle = "rgba(" + red + "," + green + "," + blue + ", 0.9)";
+                c.fillStyle = "rgba(" + red + "," + green + "," + blue + ", 0.95)";
                 var hsv = tinycolor(c.fillStyle).toHsv();
-                hsv['s'] = 100;
+                hsv['s'] = 50;
                 hsv['v'] = 100;
                 c.fillStyle = tinycolor(hsv).toHex();
-                c.fillStyle = tinycolor(c.fillStyle).setAlpha(0.9);
+                //c.fillStyle = tinycolor(c.fillStyle).setAlpha(0.9);
                 var width = SC_W / 5;
                 var height = SC_H / 5;
                 c.fillRect(i * width, j * height, width, height);
             }
             c.stroke();
         }
-        
-        /* UNCOMMENT THIS FOR GREEN LINES */
-        /*
-        screenFront += 1;
-        screenLeft += 1;
-        c.lineWidth = 0.5;
-        var slicecount = SC_W / RS;
-        var leftshift = (screenLeft % 1) * RS;
-        var frontshift = (screenFront % 1) * RS;
-        var p2d = [0, 0];
-        for (var slicez = 30; slicez >= 10; slicez--) {
-            c.beginPath();
-            // rudimentary frustum culling
-            var edgewidth = slicez * 1.22;
-            var zpos = (slicez * RS) - frontshift;
-            var slicevisible = false;
-            // this bit of code makes the colour fade out towards the distance.
-            if (Math.abs(zpos) < 100) linecol = 0xff;
-            else if (zpos > 7000) {
-                // should give number from 1 - 2000;  
-                linecol = (((10000 - zpos) / 3000) * 0xff);
-            } else {
-                linecol = 0xff;
-            }
-            c.strokeStyle = "rgb(0," + linecol + ",0)";
-            // make sure we only oveTo the first point. 
-            var firstpoint = true;
-            for (var slicex = -edgewidth; slicex <= slicecount + edgewidth; slicex++) {
-                var h = (noise1(slicex + screenLeft, screenFront + slicez));
-                var xpos = (slicex * RS) - leftshift;
-                var ypos = (h - screenTop) * RS;
-                p2d = convert3Dto2D(xpos, ypos, zpos);
-                if (p2d[1] > SC_H) p2d[1] = SC_H;
-                else if (p2d[1] < 0) p2d[1] = 0;
-                else slicevisible = true;
-                if (firstpoint) {
-                    c.moveTo(p2d[0], p2d[1]);
-                    firstpoint = false;
-                } else {
-                    c.lineTo(p2d[0], p2d[1]);
-                }
-            }
-            if (slicevisible) c.stroke();
-        }*/
     }
     var loop = setInterval(function() { makeTheMagicHappen(); }, 50);
 }

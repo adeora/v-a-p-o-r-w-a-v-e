@@ -42,13 +42,15 @@
     margin: 0;
 }
 body {
+    font-family: monospace;
+    text-transform: lowercase;
 }
 a, a:visited {
     text-decoration: none;
     color: #c6c6c6;
 }
 a:hover, a:active {
-    color: #fff;
+    color: #000;
 }
 #info {
     display: none;
@@ -73,7 +75,7 @@ a:hover, a:active {
     font-size: 32px;
 }
 #tab>a {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 1);
     padding: 7px 10px 3px 10px;
 }
 #trackInfoPanel {
@@ -84,7 +86,7 @@ a:hover, a:active {
 	-webkit-transition: max-height 0.8s;
 	-moz-transition: max-height 0.8s;
 	transition: max-height 0.8s;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 1);
     padding-top: 10px;
 }
 #trackInfoPanel.hidden {
@@ -108,7 +110,7 @@ a:hover, a:active {
     position: relative;
     width: 100%;
     float: left;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 1);
     padding-top: 10px;
 }
 #input {
@@ -143,7 +145,7 @@ a:hover, a:active {
     width: 100%;
     padding: 20px 0;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 1);
     opacity: 1;
     max-height: 500px;
     -webkit-transition: opacity 0.5s, max-height 0.5s, padding 0.5s;
