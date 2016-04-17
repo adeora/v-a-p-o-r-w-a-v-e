@@ -130,7 +130,7 @@ a:hover, a:active {
 }
 #submit {
     position: absolute;
-    color: #fff;
+    color: black;
     font-size: 32px;
     padding: 5px;
     background: none;

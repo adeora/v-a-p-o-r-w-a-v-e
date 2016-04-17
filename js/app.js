@@ -134,12 +134,17 @@ var SoundcloudLoader = function(player, uiUpdater) {
             client_id: client_id
         });
         SC.get('/resolve', { url: track_url }, function(sound) {
+            if(sound == null) {
+                alert("There was an error loading your selected track. This may be because the track's author has disabled " + 
+                    "embedding on soundcloud. Nothing can be done about that. Sorry!");
+            }
             if (sound.errors) {
                 self.errorMessage = "";
                 for (var i = 0; i < sound.errors.length; i++) {
                     self.errorMessage += sound.errors[i].error_message + '<br>';
                 }
                 self.errorMessage += 'Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track';
+                alert(self.errorMessage);
                 errorCallback();
             } else {
 
@@ -288,6 +293,7 @@ window.onload = function init() {
             },
             function() {
                 uiUpdater.displayMessage("Error", loader.errorMessage);
+                alert(loader.errorMessage);
             });
     };
 
@@ -348,14 +354,13 @@ function render() {
             }
             c.stroke();
         }
-        if(theAverage > 150) {
+        if(theAverage > 170) {
             var displayTexts = ["v a p o r w a v e", "d a n k", "a e s t h e t i c", "u n c o m m o n"];
             var theText = displayTexts[getRandomInt(0, displayTexts.length)];
             document.title = theText;
             c.fillStyle = "#fff";
             c.font = "80px monospace"
             c.fillText(theText, getRandomInt(0, SC_W), getRandomInt(0, SC_H));
-            console.log([getRandomInt(0, SC_W), getRandomInt(0, SC_H)]);
         }
     }
     var loop = setInterval(function() { makeTheMagicHappen(); }, 10);
