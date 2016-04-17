@@ -332,7 +332,7 @@ function render() {
                 var bangImage = imageArray[bangImageIndex];
                 var image = (allStreamData[3*(5*i + j)] > 200) ? baseImage : bangImage;
                 c.drawImage(image, i*width, j*height, width, height);
-                var percentTransform = 0.3;
+                var percentTransform = 0.6;
                 var red = transform(allStreamData[3*(5*i +j)], percentTransform);
                 var green = transform(allStreamData[3*(5*i +j) + 1], percentTransform);
                 var blue = transform(allStreamData[3*(5*i +j) + 2], percentTransform);
