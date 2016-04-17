@@ -322,7 +322,7 @@ function render() {
     var SC_W = 1200;
     var SC_H = 600;
     var RS = 100;
-    var canvas = document.getElementById('terrain-canvas');
+    var canvas = document.getElementById('draw-canvas');
     var c = canvas.getContext('2d');
     function makeTheMagicHappen() {
         var theSum = 0;
@@ -355,12 +355,19 @@ function render() {
             c.stroke();
         }
         if(theAverage > 170) {
-            var displayTexts = ["v a p o r w a v e", "d a n k", "a e s t h e t i c", "u n c o m m o n"];
+            var displayTexts = [
+                "v a p o r w a v e", 
+                "d a n k", 
+                "a e s t h e t i c", 
+                "u n c o m m o n",
+            ];
+            c.save();
             var theText = displayTexts[getRandomInt(0, displayTexts.length)];
             document.title = theText;
             c.fillStyle = "#fff";
-            c.font = "80px monospace"
-            c.fillText(theText, getRandomInt(0, SC_W), getRandomInt(0, SC_H));
+            c.font = "40px monospace"
+            c.fillText(theText, getRandomInt(100, SC_W - 100), getRandomInt(100, SC_H - 100));
+            c.restore();
         }
     }
     var loop = setInterval(function() { makeTheMagicHappen(); }, 10);
